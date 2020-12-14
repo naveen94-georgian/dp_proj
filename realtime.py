@@ -3,6 +3,10 @@ from bs4 import BeautifulSoup
 import time
 import datetime
 from pymongo import MongoClient
+import json
+from bson import BSON
+from bson import json_util
+
 class real_time:
     def __init__(self):
         self.URL = "https://en.tutiempo.net/toronto.html"
@@ -33,6 +37,14 @@ class real_time:
             'current_windspeed': wind_speed
             }
         return out
+    
+    def print_data(self):
+        documents = self.realtime_collection.find({})
+        for document in documents:
+            final = json.dumps(document, indent=4, default=json_util.default)
+            print(final)
+
 
 rl = real_time()
 rl.real_time_capture(True)
+rl.print_data()
