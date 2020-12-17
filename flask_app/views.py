@@ -16,9 +16,15 @@ process = process_data(lst)
 temp_mean = process.get_average_temp_data()
 event_data = process.get_weather_event_data()
 
+days = list(map(str,range(1,32)))
+months = list(map(str,range(1,13)))
+years = list(map(str,range(2009,2020)))
+
+
 @app.route("/")
 def index():
-	return render_template('index.html', temp_mean= temp_mean, event_data= event_data)
+	return render_template('index.html', temp_mean= temp_mean, 
+    event_data= event_data, days= days, months=months, years=years)
 
 # @app.route('/get_data')
 # def get_data():

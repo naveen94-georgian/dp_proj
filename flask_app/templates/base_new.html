@@ -1,0 +1,35 @@
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-head" id="headingOne">
+            <h2 class="mb-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                aria-controls="collapseOne">
+                Add Filter
+            </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <form action="" class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="selCity" class="mr-1">City</label>
+                        <select name="selCity" class="custom-select mr-1" id="selCity">
+                            <option selected>Choose...</option>
+                            <option value="Toronto">Toronto</option>
+                            <option value="Vancouver">Vancouver</option>
+                            <option value="Montreal">Montreal</option>
+                            <option value="Ottawa">Ottawa</option>
+                            <option value="St John">St John</option>
+                            <option value="Charlottetown">Charlottetown</option>
+                            <option value="Halifax">Halifax</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2 mx-sm-3">
+                        <label for="inpDate" class="mr-1">Date</label>
+                        <input type="date" id="inpDate" class="form-control mr-1" name="trip-start" value="2019-12-31"
+                            min="2009-01-01" max="2019-12-31">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

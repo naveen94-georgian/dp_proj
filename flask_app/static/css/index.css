@@ -1,3 +1,37 @@
 .table-responsive {
     max-height:172px;
 }
+.card-header {
+    border-bottom-color: #EDEFF0;
+    background: transparent;
+  }
+
+  .card{
+      background-color: #F9F5ED;
+      opacity: 0.85;
+  }
+
+  #ls_temp{
+    padding-inline-start: 20px;
+  }
+
+  #ls_temp > li , #ls_temp > ul > li, #ls_weather > li{
+    font-size: 13.466px;
+  }
+.profile_img{
+    height: 120px;
+    width: 110px;
+}
+
+.pcb{
+    padding:10px;
+}
+
+
+  body {
+    /* The image used */
+    background-image: url("../images/win.jpg");
+    background-size: 100%;
+  }
+
+  

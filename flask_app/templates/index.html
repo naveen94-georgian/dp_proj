@@ -3,7 +3,9 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-</script>
+</link>
+
+
 {% endblock %}
 
 {% block scripts %}
@@ -14,61 +16,241 @@
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}
 {% block nav_items %}
-<ul id="Mypagetabs" class="navbar-nav">
-  <li id="pg1" class="nav-item">
-    <a class="nav-link js-toggle-trigger" href="#page1">Dashboard</a>
-  </li>
-  <li id="pg2" class="nav-item">
-    <a class="nav-link js-toggle-trigger" href="#page2">Api</a>
-  </li>
-</ul>
+
 {% endblock %}
 
 
 {% block content %}
-<div class="container-fluid">
-  <div id="page1">
-    <div class="row">
-      <div class="col-md-6 mt-3 pl-1 ">
-        <div class="card h-100">
-          <div class="card-body">
-            <canvas id="line-chart"></canvas>
-          </div>
+<div id="page1" class="container-fluid">
+  <div class="row p-2">
+    <div class="col-md-8 pr-0">
+      <div class="card">
+        <div class="card-body">
+          <canvas id="line-chart"></canvas>
         </div>
       </div>
-      <div class="col-md-6 mt-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <canvas id="bar-chart-grouped"></canvas>
-          </div>
-        </div>
-      </div>
-      <input type="text" value="{{ temp_mean }}" id="inp_temp_mean" class="d-none" />
-      <input type="text" value="{{ event_data }}" id="inp_event_data" class="d-none" />
-
     </div>
-    <div id="page2" class="row" style="display:none;">
-      <div class="col-md-12">
-        <div class="card mb-3">
-          <div class="card-header">
-            Featured
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
+    <div class="col-md-4 pr-0">
+      <div class="card h-100">
+        <div class="card-body">
+          <!-- <canvas id="bar-chart-grouped"></canvas> -->
+          <h5 class="card-title">Average Temperatue in Canadian cities</h5>
+          <h6>Observations</h6>
+          <ol id="ls_temp">
+            <li>Average temperature of St John has decreased to 4.6 from 5.87 C from year  2009 to 2019.</li>
+            <ul>
+              <li>Average temperature difference is more in St John compare to other cities.</li>
+            </ul>
+            <li>Average temperature of Toronto in year 2009, 2012, 2014 and 2016 is 8.26C, 10.69C, 7.69C and 10.23C
+              respectively</li>
+            <ul>
+              <li>Average temperature difference has increased in Toronto and Toronto observes more climate variability.
+              </li>
+            </ul>
+            <li>Vancouver average temperature has increased from 10.30C to 10.56C . In year 2015, Vancouver Average
+              temperature was 11.5C which was highest from year 2009 to 2019.</li>
+            <ul>
+              <li>So Average temperature of Vancouver is increased .</li>
+            </ul>
+          </ol>
         </div>
-        <div class="card mb-3">
-          <div class="card-header bg-white border-0">
-            <button id="tb" type="button" class="btn btn-primary">Load</button>
-          </div>
-          <div class="card-body">
-            <div id="my_table">
+      </div>
+    </div>
+
+  </div>
+  <div class="row p-2">
+    <div class="col-md-4 pr-0">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Weather Events in Canadian Cities</h5>
+          <h6>Observations</h6>
+          <ol id="ls_weather">
+            <li>Number of days of Tornados in Toronto is 276,which is highest as compare to other cities from year 2009
+              to 2019. ​</li>
+            <li>St John has bad weather condition because number of rainy days, snowy days and foggy days are more as
+              compare to other cities.​</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 pr-0">
+      <div class="card">
+        <div class="card-body">
+          <canvas id="bar-chart-grouped"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="text" value="{{ temp_mean }}" id="inp_temp_mean" class="d-none" />
+  <input type="text" value="{{ event_data }}" id="inp_event_data" class="d-none" />
+</div>
+<div id="page2" class="container-fluid d-none overflow-auto">
+  <div class="row pt-2">
+    <div class="col-md-12">
+      <div class="card border-info w-100">
+
+        <div class="card-body">
+          <h5 class="card-title text-dark">Filter</h5>
+          <div class="form-row">
+            <div class="form-group mr-2 mb-2">
+              <label for="selCity" class="mr-1 sr-only">City</label>
+              <select name="selCity" class="custom-select mr-1" id="selCity">
+                <option selected value="">City...</option>
+                <option value="Toronto">Toronto</option>
+                <option value="Vancouver">Vancouver</option>
+                <option value="Montreal">Montreal</option>
+                <option value="Ottawa">Ottawa</option>
+                <option value="St John">St John</option>
+                <option value="Charlottetown">Charlottetown</option>
+                <option value="Halifax">Halifax</option>
+              </select>
+            </div>
+            <div class="form-group mr-2 mb-2">
+              <label for="sel_day" class="mr-1 sr-only">Day</label>
+              <select name="sel_day" class="custom-select mr-1" id="sel_day">
+                <option selected value="">Day...</option>
+                {% for day in days %}
+                <option value="{{ day }}">{{ day }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group mr-2 mb-2">
+              <label for="sel_month" class="mr-1 sr-only">Month</label>
+              <select name="sel_month" class="custom-select mr-1" id="sel_month">
+                <option selected value="">Month...</option>
+                {% for month in months %}
+                <option value="{{ month }}">{{ month }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group mr-2 mb-2">
+              <label for="sel_year" class="mr-1 sr-only">Year</label>
+              <select name="sel_year" class="custom-select mr-1" id="sel_year">
+                <option selected value="">Year...</option>
+                {% for year in years %}
+                <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <!-- <label for="btn_add_filer" class="sr-only">Add</label> -->
+              <button id="btn_add_filer" class="btn btn-success">
+                Add
+              </button>
+              <!-- <label for="btn_clear_filer" class="sr-only">Clear</label> -->
+              <button id="btn_clear_filer" class="btn btn-danger mr-2" data-toggle="popover" data-placement="bottom"
+                data-content="Filter Cleared">
+                Clear
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  {% endblock %}
+  <div class="row pt-2">
+    <div class="col-md-12">
+      <div class="card w-100">
+        <div class="card-body">
+          <h5 class="card-title text-dark">API Url</h5>
+          <form
+            action="https://webhooks.mongodb-realm.com/api/client/v2.0/app/weather-app-qeitr/service/weather-http/incoming_webhook/weather-webhook"
+            method="get" target="_blank">
+            <div class="form-group d-none">
+              <input type="text" name="city" id="txt_city">
+              <input type="text" name="day" id="txt_day">
+              <input type="text" name="month" id="txt_month">
+              <input type="text" name="year" id="txt_year">
+            </div>
+            <div class="input-group mb-3">
+              <label for="api_url"></label>
+              <input type="text" class="form-control" readonly id="api_url">
+
+              <div class="input-group-append">
+                <button class="btn btn-light" id="btn_copy" data-clipboard-target="#api_url" type="button">
+                  Copy
+                </button>
+                <input type="submit" class="btn btn-primary" Value="Get">
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row pt-2">
+  <div class="col-md-6">
+    <div class="card-deck">
+      <div class="card mr-0 h-100">
+        <img class="card-img-top w-100 profile_img" src="{{ url_for('static', filename='images/naveen.jpg') }}"
+          alt="Card image cap">
+        <div class="card-body pcb">
+          <p class="">Naveen Selvaraju<br/>
+          <small class="text-muted">Developer</small></p>
+        </div>
+      </div>
+      <div class="card mr-0 h-100">
+        <img class="card-img-top w-100 profile_img" src="{{ url_for('static', filename='images/bhumin.jpeg') }}"
+          alt="Card image cap">
+        <div class="card-body pcb">
+          <p class="">Bhumin Shah<br/>
+          <small class="text-muted">Business Analyst</small>
+          </p>
+        </div>
+      </div>
+      <div class="card mr-0 h-100">
+        <img class="card-img-top w-100 profile_img" src="{{ url_for('static', filename='images/karishma.jpeg') }}"
+          alt="Card image cap">
+        <div class="card-body pcb">
+          <p class="">Karishma Shah<br/>
+          <small class="text-muted">Data Analyst</small>
+          </p>
+        </div>
+      </div>
+      <div class="card mr-0 h-100">
+        <img class="card-img-top w-100 profile_img" src="{{ url_for('static', filename='images/komal.jpeg') }}"
+          alt="Card image cap">
+        <div class="card-body pcb">
+          <p class="">Komal Shah<br/>
+          <small class="text-muted">Project Manager</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100 w-100">
+      <div class="card-body">
+        <h6 class="title">References</h6>
+        <ul>
+          <li><a class="card-link" href="https://www.youtube.com/watch?v=CTu0qnuMxgA">https://www.youtube.com/watch?v=CTu0qnuMxgA</a></li>
+          <li><a href="https://www.youtube.com/watch?v=w25ea_I89iM&feature=youtu.be" class="card-link">https://www.youtube.com/watch?v=w25ea_I89iM&feature=youtu.be</a></li>
+          <li><a href="https://tobiasahlin.com/blog/chartjs-charts-to-get-you-started/" class="card-link">https://tobiasahlin.com/blog/chartjs-charts-to-get-you-started/</a></li>
+          <li><a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" class="card-link">https://getbootstrap.com/docs/4.0/getting-started/introduction/</a></li>
+          <li><a href="https://www.w3schools.com/bootstrap4/default.asp" class="card-link">https://www.w3schools.com/bootstrap4/default.asp</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="row">
+        <div class="col-md-12">
+          <div class="form-group input-group mb-3">
+            <label for="api_url"></label>
+            <input type="text" class="form-control" disabled id="api_url">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+
+<!-- <div id="my_table"> -->
+
+
+{% endblock %}
